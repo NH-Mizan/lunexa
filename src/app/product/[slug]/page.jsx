@@ -162,58 +162,75 @@ export default async function ProductDetailsPage({ params }) {
   };
 
   return (
-    <section className="container my-10">
+    <section className="container my-8 lg:my-12">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
       />
 
-      <div className="w-full flex flex-col md:flex-row gap-6 p-4 bg-white shadow-md rounded-lg">
+      <div className="grid gap-8 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm lg:grid-cols-[0.95fr_1fr] lg:p-6">
         <ProductGallery product={product} />
 
-        <div className="w-full md:w-1/2">
-          <h1 className="text-2xl font-semibold mb-2">{product.name}</h1>
+        <div className="flex flex-col rounded-2xl border border-gray-100 bg-white p-1 lg:p-4">
+          <div className="space-y-5">
+            <div className="space-y-3">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">
+                Product Details
+              </p>
+              <h1 className="text-2xl font-bold leading-tight text-gray-950 lg:text-4xl">
+                {product.name}
+              </h1>
 
-          <div className="text-sm text-gray-600 mb-2">
-            <span className="mr-2">Brand:</span>
-            <span className="font-medium">{product?.brand?.name || "N/A"}</span>
-          </div>
-
-          <div className="my-4">
-            <p className="text-xl font-bold text-pink-600">Tk {product?.new_price}</p>
-            {product.old_price && (
-              <p className="text-gray-500 line-through text-sm">Tk {product.old_price}</p>
-            )}
-            {discount > 0 && (
-              <p className="text-sm text-green-600 font-semibold">{discount}% OFF</p>
-            )}
-          </div>
-
-          <div className="mb-2">
-            <strong>Status:</strong>
-            {getProductStock(product) === 0 ? (
-              <span className="ml-2 text-red-500 font-semibold">Out of Stock</span>
-            ) : (
-              <span className="ml-2 text-green-600 font-semibold">In Stock</span>
-            )}
-          </div>
-
-          <ProductSizeColor product={product} sizes={sizes} colors={colors} />
-
-          <div className="flex-wrap items-center gap-3 mt-4">
-            <Link href="tel:01846494272" className="flex w-[270px] lg:w-[310px] justify-center text-center items-center bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
-              <FaWhatsapp className="mr-2 font-bold text-xl" /> 01846494272
-            </Link>
-          </div>
-
-          <div className="mt-12">
-            <div className="flex justify-between border-t pt-4 text-sm">
-              <span>Delivery Charge</span>
-              <span>Inside Dhaka Tk 70</span>
+              <div className="flex flex-wrap items-center gap-3 text-sm">
+                <span className="rounded-full border border-gray-200 bg-gray-50 px-4 py-2 text-gray-600">
+                  Brand: <span className="font-semibold text-gray-950">{product?.brand?.name || "N/A"}</span>
+                </span>
+                {getProductStock(product) === 0 ? (
+                  <span className="rounded-full border border-red-200 bg-red-50 px-4 py-2 font-semibold text-red-600">
+                    Out of Stock
+                  </span>
+                ) : (
+                  <span className="rounded-full border border-green-200 bg-green-50 px-4 py-2 font-semibold text-green-700">
+                    In Stock
+                  </span>
+                )}
+              </div>
             </div>
-            <div className="flex justify-between border-t mt-6 pt-4 text-sm">
-              <span>Delivery Charge</span>
-              <span>Outside Dhaka Tk 120</span>
+
+            <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4">
+              <div className="flex flex-wrap items-end gap-3">
+                <p className="text-3xl font-black text-gray-950">Tk {product?.new_price}</p>
+                {product.old_price && (
+                  <p className="pb-1 text-base font-semibold text-gray-400 line-through">
+                    Tk {product.old_price}
+                  </p>
+                )}
+                {discount > 0 && (
+                  <span className="mb-1 rounded-full bg-green-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.12em] text-green-700">
+                    {discount}% Off
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <ProductSizeColor product={product} sizes={sizes} colors={colors} />
+
+            <Link
+              href="tel:01846494272"
+              className="flex w-full items-center justify-center rounded-xl bg-green-600 px-5 py-3 text-base font-bold text-white transition hover:bg-green-700"
+            >
+              <FaWhatsapp className="mr-2 text-xl" /> 01846494272
+            </Link>
+
+            <div className="grid gap-3 rounded-2xl border border-gray-200 p-4">
+              <div className="flex items-center justify-between gap-4 border-b border-gray-100 pb-3 text-sm">
+                <span className="font-semibold text-gray-600">Inside Dhaka</span>
+                <span className="font-bold text-gray-950">Tk 70</span>
+              </div>
+              <div className="flex items-center justify-between gap-4 text-sm">
+                <span className="font-semibold text-gray-600">Outside Dhaka</span>
+                <span className="font-bold text-gray-950">Tk 120</span>
+              </div>
             </div>
           </div>
         </div>

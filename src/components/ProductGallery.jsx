@@ -75,6 +75,14 @@ function ThumbnailPlugin(mainRef) {
 }
 
 export default function ProductGallery({ product }) {
+  const productImages = [
+    ...(Array.isArray(product?.images) ? product.images : []),
+    product?.image?.image ? { image: product.image.image } : null,
+  ].filter((image) => image?.image);
+  const galleryImages = productImages.length
+    ? productImages
+    : [{ image: "/images/sell.jpg" }];
+
   const [sliderRef, instanceRef] = useKeenSlider(
     {
       initial: 0,
@@ -94,46 +102,51 @@ export default function ProductGallery({ product }) {
     [ThumbnailPlugin(instanceRef)]
   );
 
-  if (!product?.images?.length) return null;
-
   return (
-    <div className="w-full md:w-1/2">
-      <div ref={sliderRef} className="keen-slider rounded-lg overflow-hidden">
-        {product.images.map((img, index) => (
-          <div key={img.id ?? index} className="keen-slider__slide">
-            <Image
-              src={getAssetUrl(img.image)}
-              alt={product.name}
-              width={640}
-              height={640}
-              priority={index === 0}
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="w-full h-auto"
-            />
-          </div>
-        ))}
+    <div className="w-full">
+      <div className="rounded-2xl border border-gray-200 bg-white p-3 shadow-sm">
+        <div ref={sliderRef} className="keen-slider overflow-hidden rounded-xl bg-gray-50">
+          {galleryImages.map((img, index) => (
+            <div key={img.id ?? img.image ?? index} className="keen-slider__slide">
+              <div className="group grid aspect-square place-items-center overflow-hidden bg-gray-50">
+                <Image
+                  src={getAssetUrl(img.image)}
+                  alt={product.name}
+                  width={720}
+                  height={720}
+                  priority={index === 0}
+                  sizes="(max-width: 1024px) 100vw, 48vw"
+                  className="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-110"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div ref={thumbnailRef} className="keen-slider mt-3 thumbnail">
-        {product.images.map((img, index) => (
-          <div
-            key={img.id ?? index}
-            className="keen-slider__slide cursor-pointer border rounded-md overflow-hidden"
-          >
-            <Image
-              src={getAssetUrl(img.image)}
-              alt={`${product.name} thumbnail ${index + 1}`}
-              width={120}
-              height={80}
-              className="w-full h-20 object-cover"
-            />
-          </div>
-        ))}
-      </div>
+      {galleryImages.length > 1 && (
+        <div ref={thumbnailRef} className="keen-slider thumbnail mt-4">
+          {galleryImages.map((img, index) => (
+            <div
+              key={img.id ?? img.image ?? index}
+              className="keen-slider__slide cursor-pointer overflow-hidden rounded-xl border border-gray-200 bg-white p-1 transition hover:border-black"
+            >
+              <Image
+                src={getAssetUrl(img.image)}
+                alt={`${product.name} thumbnail ${index + 1}`}
+                width={120}
+                height={120}
+                className="h-20 w-full rounded-lg object-cover"
+              />
+            </div>
+          ))}
+        </div>
+      )}
 
       <style jsx>{`
         .thumbnail .keen-slider__slide.active {
-          border: 2px solid #ec4899;
+          border-color: #111827;
+          box-shadow: 0 0 0 1px #111827;
         }
       `}</style>
     </div>

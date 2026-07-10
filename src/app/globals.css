@@ -459,7 +459,7 @@ h2.category_title {
     top: 116px;
 }
 .product_price {
-    color: var(--primary-color);
+    color: #000;
     margin-top: 2px;
 }
 .product_info {

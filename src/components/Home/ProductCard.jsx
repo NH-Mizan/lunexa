@@ -269,7 +269,7 @@ function ProductCard({ product }) {
             {product.name.length > 30 ? `${product.name.slice(0, 60)}...` : product.name}
           </h3>
 
-          <div className="product_price text-pry font-bold text-base">
+          <div className="product_price text-black font-bold text-base">
             Tk {product.new_price}
             {product.old_price && (
               <span className="ml-2 text-gray-400 line-through">
