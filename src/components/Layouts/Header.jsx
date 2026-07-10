@@ -58,7 +58,6 @@ export default function MainHeader({ initialCategories = [], brands = [] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
   const [show, setShow] = useState(false);
-  const [selected, setSelected] = useState("");
   const [isHydrated, setIsHydrated] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [liveResults, setLiveResults] = useState([]);
@@ -138,15 +137,6 @@ export default function MainHeader({ initialCategories = [], brands = [] }) {
     setLoginModal(true);
   };
 
-  const handleChange = (event) => {
-    const value = event.target.value;
-    setSelected(value);
-
-    if (value !== "Select Category") {
-      router.push(value);
-    }
-  };
-
   const handleSearchInput = (event) => {
     const value = event.target.value;
     setSearchTerm(value);
@@ -223,10 +213,14 @@ export default function MainHeader({ initialCategories = [], brands = [] }) {
               </div>
             </div>
 
-            <div ref={searchBoxRef} className="relative flex w-full max-w-2xl border border-pry rounded-md bg-white mb-2 lg:mb-0 overflow-visible">
+            <div
+              ref={searchBoxRef}
+              className="relative mb-2 flex h-12 w-full min-w-0 max-w-2xl items-center rounded-lg border border-white/10 bg-white shadow-sm transition focus-within:border-pry focus-within:ring-2 focus-within:ring-pink-200 lg:mb-0"
+            >
+              <FaSearch className="ml-4 shrink-0 text-base text-gray-400" />
               <input
                 type="text"
-                placeholder="Search"
+                placeholder="Search products..."
                 value={searchTerm}
                 onChange={handleSearchInput}
                 onFocus={() => {
@@ -240,36 +234,19 @@ export default function MainHeader({ initialCategories = [], brands = [] }) {
                     handleSearchSubmit();
                   }
                 }}
-                className="w-full px-4 py-2 outline-none text-sm text-gray-700 placeholder:text-gray-400"
+                className="min-w-0 flex-1 bg-transparent px-3 py-3 text-sm font-medium text-gray-800 outline-none placeholder:text-gray-400 sm:text-base"
               />
-
-              <div className="w-[2px] bg-pry my-2" />
-
-              <select
-                className="text-sm px-3 outline-none bg-white text-black appearance-none"
-                value={selected}
-                onChange={handleChange}
-                aria-label="Select category"
-              >
-                <option>Select Category</option>
-                {initialCategories.map((category) => (
-                  <option key={category.id} value={`/category/${category.id}`}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-
               <button
                 type="button"
                 onClick={handleSearchSubmit}
-                className="bg-pry text-white px-4 flex items-center justify-center"
+                className="mr-1 flex h-10 w-12 shrink-0 items-center justify-center rounded-md bg-pry text-white transition hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-200"
                 aria-label="Search"
               >
-                <FaSearch className="text-lg" />
+                <FaSearch className="text-base" />
               </button>
 
               {showResults ? (
-                <div className="absolute left-0 top-full z-40 mt-2 w-full rounded-xl border border-gray-200 bg-white shadow-xl">
+                <div className="absolute left-0 top-full z-40 mt-2 w-full overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xl">
                   {isSearchLoading ? (
                     <div className="px-4 py-3 text-sm text-gray-500">Searching...</div>
                   ) : liveResults.length > 0 ? (
