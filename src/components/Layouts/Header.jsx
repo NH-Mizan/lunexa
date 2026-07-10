@@ -12,6 +12,9 @@ import { BiSupport } from "react-icons/bi";
 import {
   FaAngleDown,
   FaBars,
+  FaBolt,
+  FaGift,
+  FaHome,
   FaRegUserCircle,
   FaSearch,
   FaShoppingCart,
@@ -217,7 +220,7 @@ export default function MainHeader({ initialCategories = [], brands = [] }) {
               ref={searchBoxRef}
               className="relative mb-2 flex h-12 w-full min-w-0 max-w-2xl items-center rounded-lg border border-white/10 bg-white shadow-sm transition focus-within:border-pry focus-within:ring-2 focus-within:ring-pink-200 lg:mb-0"
             >
-              <FaSearch className="ml-4 shrink-0 text-base text-gray-400" />
+             
               <input
                 type="text"
                 placeholder="Search products..."
@@ -358,7 +361,7 @@ export default function MainHeader({ initialCategories = [], brands = [] }) {
         <div onClick={toggleMenu} className="fixed inset-0 bg-black opacity-30 z-40" />
       )}
 
-      <div className="bg-black shadow-sm">
+      <div className="hidden bg-black shadow-sm lg:block">
         <div className="w-11/12 lg:w-10/12 mx-auto flex items-center justify-between pt-2 pb-3 lg:pt-0 lg:pb-3">
           <div
             className="relative hidden lg:block"
@@ -514,6 +517,53 @@ export default function MainHeader({ initialCategories = [], brands = [] }) {
           </div>
         </div>
       </div>
+
+      <nav className="fixed inset-x-0 bottom-0 z-50 h-16 border-t border-white/10 bg-black text-white shadow-[0_-8px_24px_rgba(0,0,0,0.24)] lg:hidden">
+        <div className="grid h-full grid-cols-5 items-end px-2 pb-2 text-[11px] font-semibold">
+          <button
+            type="button"
+            onClick={toggleMenu}
+            className="flex min-w-0 flex-col items-center justify-end gap-1 text-white"
+            aria-label="Open categories"
+          >
+            <FaBars className="text-2xl" />
+            <span className="truncate">Category</span>
+          </button>
+
+          <Link href="#" className="flex min-w-0 flex-col items-center justify-end gap-1 text-white">
+            <FaGift className="text-2xl" />
+            <span className="truncate">Offers</span>
+          </Link>
+
+          <Link href="/" className="relative flex min-w-0 justify-center" aria-label="Home">
+            <span className="absolute -top-9 grid h-20 w-20 place-items-center rounded-full border-4 border-white bg-black shadow-lg">
+              <FaHome className="text-3xl text-white" />
+            </span>
+          </Link>
+
+          <Link href="#" className="flex min-w-0 flex-col items-center justify-end gap-1 text-white">
+            <FaBolt className="text-2xl" />
+            <span className="truncate">Flash Sale</span>
+          </Link>
+
+          {user ? (
+            <Link href="/dashboard" className="flex min-w-0 flex-col items-center justify-end gap-1 text-white">
+              <FaUser className="text-2xl" />
+              <span className="truncate">Account</span>
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={openLoginModal}
+              className="flex min-w-0 flex-col items-center justify-end gap-1 text-white"
+              aria-label="Login account"
+            >
+              <FaUser className="text-2xl" />
+              <span className="truncate">Account</span>
+            </button>
+          )}
+        </div>
+      </nav>
     </div>
   );
 }
