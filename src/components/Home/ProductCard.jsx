@@ -12,6 +12,35 @@ import { GoHeart } from 'react-icons/go';
 import { toast, Bounce } from 'react-toastify';
 import Swal from 'sweetalert2';
 
+function escapeHtml(value = '') {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function normalizeVariantOptions(source, key) {
+  const list = Array.isArray(source) ? source : source ? [source] : [];
+
+  return [
+    ...new Set(
+      list
+        .map((item) => {
+          if (typeof item === 'string' || typeof item === 'number') {
+            return String(item);
+          }
+
+          return item?.[key] ?? item?.name ?? item?.value ?? item?.title;
+        })
+        .filter(Boolean)
+        .map((item) => String(item).trim())
+        .filter(Boolean)
+    ),
+  ];
+}
+
 function ProductCard({ product }) {
   const router = useRouter();
   const [isHydrated, setIsHydrated] = useState(false);
@@ -67,22 +96,61 @@ function ProductCard({ product }) {
 
   const handleOrderNow = useCallback(() => {
     let quantity = 1;
+    let selectedSize = null;
+    let selectedColor = null;
+    const sizes = normalizeVariantOptions(product.sizes ?? product.size, 'size');
+    const colors = normalizeVariantOptions(product.colors ?? product.color, 'color');
+    const hasSizes = sizes.length > 0;
+    const hasColors = colors.length > 0;
+    selectedSize = hasSizes ? sizes[0] : null;
+    selectedColor = hasColors ? colors[0] : null;
+    const variantHtml = [
+      hasSizes
+        ? `<div class="order-now-variant-group">
+            <span class="order-now-variant-label">Size</span>
+            <div class="order-now-variant-options" data-variant="size">
+              ${sizes
+                .map(
+                  (size, index) =>
+                    `<button type="button" class="order-now-chip ${index === 0 ? 'is-active' : ''}" data-value="${escapeHtml(size)}">${escapeHtml(size)}</button>`
+                )
+                .join('')}
+            </div>
+          </div>`
+        : '',
+      hasColors
+        ? `<div class="order-now-variant-group">
+            <span class="order-now-variant-label">Color</span>
+            <div class="order-now-variant-options" data-variant="color">
+              ${colors
+                .map(
+                  (color, index) =>
+                    `<button type="button" class="order-now-chip ${index === 0 ? 'is-active' : ''}" data-value="${escapeHtml(color)}">${escapeHtml(color)}</button>`
+                )
+                .join('')}
+            </div>
+          </div>`
+        : '',
+    ].join('');
 
     Swal.fire({
       title: '',
       html: `
-        <div style="display:flex; align-items:center; gap:15px;">
-          <img src="${imageUrl}" alt="${product.name}" style="width:100%; max-height:220px; object-fit:contain; border-radius:12px; margin-bottom:15px;" />
-          <div>
-            <h2 style="font-size:18px; font-weight:600; margin-bottom:5px; color:#1f2937;">${product.name}</h2>
-            <p style="font-size:16px; font-weight:700; color:#dc2626; margin-bottom:10px;">
-              Tk ${product.new_price}
-              ${product.old_price ? `<span style="color:#9ca3af; text-decoration:line-through; font-size:14px; margin-left:6px;">Tk ${product.old_price}</span>` : ''}
+        <div class="order-now-modal">
+          <div class="order-now-media">
+            <img src="${imageUrl}" alt="${escapeHtml(product.name)}" />
+          </div>
+          <div class="order-now-content">
+            <h2>${escapeHtml(product.name)}</h2>
+            <p class="order-now-price">
+              <span>Tk ${escapeHtml(product.new_price)}</span>
+              ${product.old_price ? `<del>Tk ${escapeHtml(product.old_price)}</del>` : ''}
             </p>
-            <div style="margin-top:10px; display:flex; justify-content:center; align-items:center; gap:15px;">
-              <button id="decreaseQty" style="padding:6px 12px; background:#ef4444; color:white; border:none; border-radius:6px; cursor:pointer; font-size:18px;">-</button>
-              <span id="qtyValue" style="font-size:16px; font-weight:600;">${quantity}</span>
-              <button id="increaseQty" style="padding:6px 12px; background:#10b981; color:white; border:none; border-radius:6px; cursor:pointer; font-size:18px;">+</button>
+            ${variantHtml}
+            <div class="order-now-qty" aria-label="Quantity selector">
+              <button id="decreaseQty" type="button" aria-label="Decrease quantity">-</button>
+              <span id="qtyValue">${quantity}</span>
+              <button id="increaseQty" type="button" aria-label="Increase quantity">+</button>
             </div>
           </div>
         </div>
@@ -92,33 +160,64 @@ function ProductCard({ product }) {
       cancelButtonText: 'Cancel',
       focusConfirm: false,
       customClass: {
-        popup: 'rounded-2xl shadow-lg',
-        confirmButton: 'bg-pry hover-bg-sec text-white font-semibold px-6 py-2 rounded-lg',
-        cancelButton: 'bg-gray-300 hover:bg-gray-400 text-black font-medium px-6 py-2 rounded-lg ml-2',
+        popup: 'order-now-popup',
+        actions: 'order-now-actions',
+        confirmButton: 'order-now-action-btn',
+        cancelButton: 'order-now-action-btn',
       },
+      buttonsStyling: false,
       didOpen: () => {
         const container = Swal.getHtmlContainer();
         const qtyValue = container.querySelector('#qtyValue');
-        container.querySelector('#increaseQty').onclick = () => {
-          quantity += 1;
+        const decreaseButton = container.querySelector('#decreaseQty');
+        const increaseButton = container.querySelector('#increaseQty');
+
+        const updateQuantity = (nextQuantity) => {
+          quantity = Math.max(1, nextQuantity);
           qtyValue.innerText = quantity;
+          decreaseButton.disabled = quantity === 1;
+        };
+
+        updateQuantity(quantity);
+
+        container.querySelectorAll('[data-variant="size"] .order-now-chip').forEach((button) => {
+          button.onclick = () => {
+            selectedSize = button.dataset.value;
+            button.parentElement.querySelectorAll('.order-now-chip').forEach((chip) => chip.classList.remove('is-active'));
+            button.classList.add('is-active');
+          };
+        });
+
+        container.querySelectorAll('[data-variant="color"] .order-now-chip').forEach((button) => {
+          button.onclick = () => {
+            selectedColor = button.dataset.value;
+            button.parentElement.querySelectorAll('.order-now-chip').forEach((chip) => chip.classList.remove('is-active'));
+            button.classList.add('is-active');
+          };
+        });
+
+        container.querySelector('#increaseQty').onclick = () => {
+          updateQuantity(quantity + 1);
         };
         container.querySelector('#decreaseQty').onclick = () => {
-          if (quantity > 1) {
-            quantity -= 1;
-            qtyValue.innerText = quantity;
-          }
+          updateQuantity(quantity - 1);
         };
       },
-      preConfirm: () => quantity,
+      preConfirm: () => ({ quantity, selectedSize, selectedColor }),
     }).then((result) => {
       if (!result.isConfirmed) return;
 
-      for (let i = 0; i < result.value; i += 1) {
-        addToCart(product);
+      const cartItem = {
+        ...product,
+        size: result.value.selectedSize,
+        color: result.value.selectedColor,
+      };
+
+      for (let i = 0; i < result.value.quantity; i += 1) {
+        addToCart(cartItem);
       }
 
-      toast.success(`${result.value} x ${product.name} added!`, {
+      toast.success(`${result.value.quantity} x ${product.name} added!`, {
         position: 'bottom-right',
         autoClose: 3000,
         theme: 'light',
