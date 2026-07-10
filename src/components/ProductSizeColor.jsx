@@ -75,7 +75,7 @@ export default function ProductSizeColor({ product, sizes = [], colors = [] }) {
                                 key={item.id ?? item.size ?? index}
                                 type="button"
                                 onClick={() => setSelectedSize(item.size)}
-                                className={`min-w-11 rounded-lg border px-4 py-2 text-sm font-semibold transition ${
+                                className={`min-w-11 max-w-full break-words rounded-md border px-4 py-2 text-sm font-semibold transition ${
                                     selectedSize === item.size
                                         ? "border-black bg-black text-white"
                                         : "border-gray-300 bg-white text-gray-900 hover:border-black"
@@ -86,7 +86,7 @@ export default function ProductSizeColor({ product, sizes = [], colors = [] }) {
                         ))}
                     </div>
                 ) : (
-                    <p className="rounded-lg border border-dashed border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-500">
+                    <p className="rounded-md border border-dashed border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-500">
                         No size option
                     </p>
                 )}
@@ -105,7 +105,7 @@ export default function ProductSizeColor({ product, sizes = [], colors = [] }) {
                                 key={item.id ?? item.color ?? index}
                                 type="button"
                                 onClick={() => setSelectedColor(item.color)}
-                                className={`rounded-lg border px-4 py-2 text-sm font-semibold capitalize transition ${
+                                className={`max-w-full break-words rounded-md border px-4 py-2 text-sm font-semibold capitalize transition ${
                                     selectedColor === item.color
                                         ? "border-black bg-black text-white"
                                         : "border-gray-300 bg-white text-gray-900 hover:border-black"
@@ -116,7 +116,7 @@ export default function ProductSizeColor({ product, sizes = [], colors = [] }) {
                         ))}
                     </div>
                 ) : (
-                    <p className="rounded-lg border border-dashed border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-500">
+                    <p className="rounded-md border border-dashed border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-500">
                         No color option
                     </p>
                 )}
@@ -126,7 +126,7 @@ export default function ProductSizeColor({ product, sizes = [], colors = [] }) {
                 <button
                     type="button"
                     onClick={handleAddToCart}
-                    className="rounded-xl border border-black bg-white px-5 py-3 text-sm font-bold uppercase tracking-[0.12em] text-black transition hover:bg-black hover:text-white"
+                    className="rounded-lg border border-black bg-white px-4 py-3 text-sm font-bold uppercase tracking-wide text-black transition hover:bg-black hover:text-white"
                 >
                     Add To Cart
                 </button>
@@ -134,7 +134,7 @@ export default function ProductSizeColor({ product, sizes = [], colors = [] }) {
                 <button
                     type="button"
                     onClick={handleOrderNow}
-                    className="rounded-xl border border-black bg-white px-5 py-3 text-sm font-bold uppercase tracking-[0.12em] text-black transition hover:bg-black hover:text-white"
+                    className="rounded-lg border border-black bg-white px-4 py-3 text-sm font-bold uppercase tracking-wide text-black transition hover:bg-black hover:text-white"
                 >
                     Order Now
                 </button>

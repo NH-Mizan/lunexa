@@ -162,42 +162,42 @@ export default async function ProductDetailsPage({ params }) {
   };
 
   return (
-    <section className="container my-8 lg:my-12">
+    <section className="container my-6 px-0 sm:px-4 lg:my-10">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
       />
 
-      <div className="grid gap-8 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm lg:grid-cols-[0.95fr_1fr] lg:p-6">
+      <div className="grid gap-6 rounded-lg border border-gray-200 bg-white p-3 shadow-sm sm:p-5 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1fr)] lg:gap-8 lg:p-6">
         <ProductGallery product={product} />
 
-        <div className="flex flex-col rounded-2xl border border-gray-100 bg-white p-1 lg:p-4">
-          <div className="space-y-5">
+        <div className="min-w-0">
+          <div className="space-y-5 lg:pr-1">
             <div className="space-y-3">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">
+              <p className="text-xs font-bold uppercase tracking-wide text-gray-400">
                 Product Details
               </p>
-              <h1 className="text-2xl font-bold leading-tight text-gray-950 lg:text-4xl">
+              <h1 className="break-words text-2xl font-bold leading-tight text-gray-950 lg:text-4xl">
                 {product.name}
               </h1>
 
               <div className="flex flex-wrap items-center gap-3 text-sm">
-                <span className="rounded-full border border-gray-200 bg-gray-50 px-4 py-2 text-gray-600">
+                <span className="rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-gray-600 sm:px-4">
                   Brand: <span className="font-semibold text-gray-950">{product?.brand?.name || "N/A"}</span>
                 </span>
                 {getProductStock(product) === 0 ? (
-                  <span className="rounded-full border border-red-200 bg-red-50 px-4 py-2 font-semibold text-red-600">
+                  <span className="rounded-md border border-red-200 bg-red-50 px-3 py-2 font-semibold text-red-600 sm:px-4">
                     Out of Stock
                   </span>
                 ) : (
-                  <span className="rounded-full border border-green-200 bg-green-50 px-4 py-2 font-semibold text-green-700">
+                  <span className="rounded-md border border-green-200 bg-green-50 px-3 py-2 font-semibold text-green-700 sm:px-4">
                     In Stock
                   </span>
                 )}
               </div>
             </div>
 
-            <div className="rounded-2xl border border-gray-200 bg-gray-50 p-4">
+            <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
               <div className="flex flex-wrap items-end gap-3">
                 <p className="text-3xl font-black text-gray-950">Tk {product?.new_price}</p>
                 {product.old_price && (
@@ -206,7 +206,7 @@ export default async function ProductDetailsPage({ params }) {
                   </p>
                 )}
                 {discount > 0 && (
-                  <span className="mb-1 rounded-full bg-green-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.12em] text-green-700">
+                  <span className="mb-1 rounded-md bg-green-100 px-3 py-1 text-xs font-bold uppercase tracking-wide text-green-700">
                     {discount}% Off
                   </span>
                 )}
@@ -217,12 +217,12 @@ export default async function ProductDetailsPage({ params }) {
 
             <Link
               href="tel:01846494272"
-              className="flex w-full items-center justify-center rounded-xl bg-green-600 px-5 py-3 text-base font-bold text-white transition hover:bg-green-700"
+              className="flex w-full items-center justify-center rounded-lg bg-green-600 px-5 py-3 text-base font-bold text-white transition hover:bg-green-700"
             >
               <FaWhatsapp className="mr-2 text-xl" /> 01846494272
             </Link>
 
-            <div className="grid gap-3 rounded-2xl border border-gray-200 p-4">
+            <div className="grid gap-3 rounded-lg border border-gray-200 p-4">
               <div className="flex items-center justify-between gap-4 border-b border-gray-100 pb-3 text-sm">
                 <span className="font-semibold text-gray-600">Inside Dhaka</span>
                 <span className="font-bold text-gray-950">Tk 70</span>
@@ -236,7 +236,7 @@ export default async function ProductDetailsPage({ params }) {
         </div>
       </div>
 
-      <div className="w-full mt-10">
+      <div className="mt-8 w-full lg:mt-10">
         <ProductInfoTabs
           description={product?.description}
           review={product?.review}
@@ -244,7 +244,7 @@ export default async function ProductDetailsPage({ params }) {
         />
       </div>
 
-      <div className="mt-10">
+      <div className="mt-8 lg:mt-10">
         <h2 className="text-xl font-semibold mb-4">Related Products</h2>
         <RelatedProducts currentProductId={product?.id} />
       </div>

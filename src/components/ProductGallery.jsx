@@ -103,12 +103,12 @@ export default function ProductGallery({ product }) {
   );
 
   return (
-    <div className="w-full">
-      <div className="rounded-2xl border border-gray-200 bg-white p-3 shadow-sm">
-        <div ref={sliderRef} className="keen-slider overflow-hidden rounded-xl bg-gray-50">
+    <div className="min-w-0 w-full">
+      <div className="rounded-lg border border-gray-200 bg-white p-2 shadow-sm sm:p-3">
+        <div ref={sliderRef} className="keen-slider overflow-hidden rounded-md bg-gray-50">
           {galleryImages.map((img, index) => (
             <div key={img.id ?? img.image ?? index} className="keen-slider__slide">
-              <div className="group grid aspect-square place-items-center overflow-hidden bg-gray-50">
+              <div className="group grid aspect-square max-h-[640px] place-items-center overflow-hidden bg-gray-50">
                 <Image
                   src={getAssetUrl(img.image)}
                   alt={product.name}
@@ -125,18 +125,18 @@ export default function ProductGallery({ product }) {
       </div>
 
       {galleryImages.length > 1 && (
-        <div ref={thumbnailRef} className="keen-slider thumbnail mt-4">
+        <div ref={thumbnailRef} className="keen-slider thumbnail mt-3 sm:mt-4">
           {galleryImages.map((img, index) => (
             <div
               key={img.id ?? img.image ?? index}
-              className="keen-slider__slide cursor-pointer overflow-hidden rounded-xl border border-gray-200 bg-white p-1 transition hover:border-black"
+              className="keen-slider__slide cursor-pointer overflow-hidden rounded-md border border-gray-200 bg-white p-1 transition hover:border-black"
             >
               <Image
                 src={getAssetUrl(img.image)}
                 alt={`${product.name} thumbnail ${index + 1}`}
                 width={120}
                 height={120}
-                className="h-20 w-full rounded-lg object-cover"
+                className="aspect-square h-auto w-full rounded object-cover"
               />
             </div>
           ))}
