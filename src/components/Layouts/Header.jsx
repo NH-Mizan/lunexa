@@ -518,48 +518,48 @@ export default function MainHeader({ initialCategories = [], brands = [] }) {
         </div>
       </div>
 
-      <nav className="fixed inset-x-0 bottom-0 z-50 h-16 border-t border-white/10 bg-black text-white shadow-[0_-8px_24px_rgba(0,0,0,0.24)] lg:hidden">
-        <div className="grid h-full grid-cols-5 items-end px-2 pb-2 text-[11px] font-semibold">
+      <nav className="fixed inset-x-0 bottom-0 z-50 h-[68px] overflow-visible bg-[#145f86] text-white shadow-[0_-8px_24px_rgba(0,0,0,0.22)] lg:hidden">
+        <div className="grid h-full grid-cols-5 items-end px-1 pb-2 text-[11px] font-semibold leading-none">
           <button
             type="button"
             onClick={toggleMenu}
-            className="flex min-w-0 flex-col items-center justify-end gap-1 text-white"
+            className="flex h-full min-w-0 flex-col items-center justify-end gap-2 px-1 text-white"
             aria-label="Open categories"
           >
-            <FaBars className="text-2xl" />
-            <span className="truncate">Category</span>
+            <FaBars className="text-[24px]" />
+            <span className="max-w-full truncate">Category</span>
           </button>
 
-          <Link href="#" className="flex min-w-0 flex-col items-center justify-end gap-1 text-white">
-            <FaGift className="text-2xl" />
-            <span className="truncate">Offers</span>
+          <Link href="#" className="flex h-full min-w-0 flex-col items-center justify-end gap-2 px-1 text-white">
+            <FaGift className="text-[24px]" />
+            <span className="max-w-full truncate">Offers</span>
           </Link>
 
-          <Link href="/" className="relative flex min-w-0 justify-center" aria-label="Home">
-            <span className="absolute -top-9 grid h-20 w-20 place-items-center rounded-full border-4 border-white bg-black shadow-lg">
-              <FaHome className="text-3xl text-white" />
+          <Link href="/" className="relative flex h-full min-w-0 items-start justify-center" aria-label="Home">
+            <span className="absolute -top-8 grid h-[88px] w-[88px] place-items-center rounded-full border-[5px] border-white bg-[#145f86] shadow-lg">
+              <FaHome className="text-[34px] text-white" />
             </span>
           </Link>
 
-          <Link href="#" className="flex min-w-0 flex-col items-center justify-end gap-1 text-white">
-            <FaBolt className="text-2xl" />
-            <span className="truncate">Flash Sale</span>
+          <Link href="#" className="flex h-full min-w-0 flex-col items-center justify-end gap-2 px-1 text-white">
+            <FaBolt className="text-[24px]" />
+            <span className="max-w-full truncate">Flash Sale</span>
           </Link>
 
           {user ? (
-            <Link href="/dashboard" className="flex min-w-0 flex-col items-center justify-end gap-1 text-white">
-              <FaUser className="text-2xl" />
-              <span className="truncate">Account</span>
+            <Link href="/dashboard" className="flex h-full min-w-0 flex-col items-center justify-end gap-2 px-1 text-white">
+              <FaUser className="text-[24px]" />
+              <span className="max-w-full truncate">Account</span>
             </Link>
           ) : (
             <button
               type="button"
               onClick={openLoginModal}
-              className="flex min-w-0 flex-col items-center justify-end gap-1 text-white"
+              className="flex h-full min-w-0 flex-col items-center justify-end gap-2 px-1 text-white"
               aria-label="Login account"
             >
-              <FaUser className="text-2xl" />
-              <span className="truncate">Account</span>
+              <FaUser className="text-[24px]" />
+              <span className="max-w-full truncate">Account</span>
             </button>
           )}
         </div>

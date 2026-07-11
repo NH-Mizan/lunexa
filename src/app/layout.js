@@ -15,15 +15,15 @@ export const metadata = {
   metadataBase: new URL(SITE_URL),
 
   title: {
-    default: "Sell-Pixers | Best Online Shopping Platform",
-    template: "%s | Sell-Pixers",
+    default: "Lunexa | Best Online Shopping Platform",
+    template: "%s | Lunexa",
   },
 
   description:
-    "Sell-Pixers is a modern e-commerce platform where you can buy quality products at the best price.",
+    "Lunexa is a modern e-commerce platform where you can buy quality products at the best price.",
 
   keywords: [
-    "Sell-Pixers",
+    "Lunexa",
     "E-commerce",
     "Online Shopping",
     "Buy Products Online",
@@ -37,11 +37,11 @@ export const metadata = {
   },
 
   openGraph: {
-    title: "Sell-Pixers | Best Online Shopping Platform",
+    title: "Lunexa | Best Online Shopping Platform",
     description:
-      "Shop smart with Sell-Pixers. Discover quality products at affordable prices.",
+      "Shop smart with Lunexa. Discover quality products at affordable prices.",
     url: SITE_URL,
-    siteName: "Sell-Pixers",
+    siteName: "Lunexa",
     images: [
       {
         url: "/images/sell.jpg",
@@ -55,7 +55,7 @@ export const metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Sell-Pixers",
+    title: "Lunexa | Best Online Shopping Platform",
     description:
       "Modern e-commerce platform with premium quality products.",
     images: ["/images/sell.jpg"],

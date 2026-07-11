@@ -28,7 +28,7 @@ function getProductDescription(product) {
     stripHtml(product?.short_description) ||
     stripHtml(product?.description) ||
     product?.name ||
-    "Shop this product at Sell-Pixers.";
+    "Shop this product at Lunexa.";
 
   return truncate(description);
 }
@@ -73,7 +73,7 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  const title = `${product.name} | Sell-Pixers`;
+  const title = `${product.name} | Lunexa`;
   const description = getProductDescription(product);
   const images = getProductImages(product);
   const imageMeta = images.map((image) => ({
@@ -89,7 +89,7 @@ export async function generateMetadata({ params }) {
     keywords: [
       product.name,
       product?.brand?.name,
-      "Sell-Pixers",
+      "LUnexa",
       "online shopping",
       "Bangladesh ecommerce",
     ].filter(Boolean),
@@ -100,7 +100,7 @@ export async function generateMetadata({ params }) {
       title,
       description,
       url: productUrl,
-      siteName: "Sell-Pixers",
+      siteName: "Lunexa",
       type: "website",
       images: imageMeta,
     },
