@@ -181,8 +181,8 @@ export default function MainHeader({ initialCategories = [], brands = [] }) {
   const activeChildCategories = getChildCategories(activeSubcategory);
 
   return (
-    <div className="sticky top-0 z-50 shadow-md mb-2">
-      <div className="bg-black z-20 relative">
+    <div className="relative z-50 shadow-md mb-2">
+      <div className="sticky top-0 z-40 bg-black">
         <header className="text-white">
           <nav className="container grid grid-cols-1 md:grid-cols-3 items-center gap-3 py-3 md:py-4">
             <div className="flex items-center justify-between md:justify-start col-span-1">
