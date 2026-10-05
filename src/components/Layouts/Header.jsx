@@ -181,8 +181,8 @@ export default function MainHeader({ initialCategories = [], brands = [] }) {
   const activeChildCategories = getChildCategories(activeSubcategory);
 
   return (
-    <div className="relative z-50 shadow-md mb-2">
-      <div className="sticky top-0 z-40 bg-black">
+    <>
+      <div className="sticky top-0 z-40 mb-2 bg-black shadow-md lg:mb-0">
         <header className="text-white">
           <nav className="container grid grid-cols-1 md:grid-cols-3 items-center gap-3 py-3 md:py-4">
             <div className="flex items-center justify-between md:justify-start col-span-1">
@@ -361,7 +361,7 @@ export default function MainHeader({ initialCategories = [], brands = [] }) {
         <div onClick={toggleMenu} className="fixed inset-0 bg-black opacity-30 z-40" />
       )}
 
-      <div className="hidden bg-black shadow-sm lg:block">
+      <div className="relative z-30 mb-2 hidden bg-black shadow-sm lg:block">
         <div className="w-11/12 lg:w-10/12 mx-auto flex items-center justify-between pt-2 pb-3 lg:pt-0 lg:pb-3">
           <div
             className="relative hidden lg:block"
@@ -564,6 +564,6 @@ export default function MainHeader({ initialCategories = [], brands = [] }) {
           )}
         </div>
       </nav>
-    </div>
+    </>
   );
 }
