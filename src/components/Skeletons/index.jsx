@@ -315,10 +315,10 @@ export const CheckoutSkeleton = memo(function CheckoutSkeleton() {
   return (
     <div className="bg-gray-100 min-h-screen py-8">
       <div className="container space-y-8">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <div className="space-y-6 rounded-lg bg-white p-6 shadow-md lg:col-span-2">
+        <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+          <div className="min-w-0 space-y-6 rounded-lg bg-white p-4 shadow-md sm:p-6">
             <SkeletonBlock className="h-8 w-48 rounded-md" />
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-6 xl:grid-cols-2">
               {range(4).map((item) => (
                 <div key={item} className="space-y-2">
                   <SkeletonBlock className="h-4 w-28 rounded-md" />
@@ -326,7 +326,7 @@ export const CheckoutSkeleton = memo(function CheckoutSkeleton() {
                 </div>
               ))}
             </div>
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-6 xl:grid-cols-2">
               {range(2).map((item) => (
                 <div key={item} className="space-y-3">
                   <SkeletonBlock className="h-6 w-36 rounded-md" />
@@ -337,18 +337,23 @@ export const CheckoutSkeleton = memo(function CheckoutSkeleton() {
             </div>
           </div>
 
-          <div className="space-y-4 rounded-lg bg-white p-6 shadow-md">
-            <SkeletonBlock className="h-7 w-36 rounded-md" />
-            {range(3).map((item) => (
-              <div key={item} className="flex items-center gap-3">
-                <SkeletonBlock className="h-16 w-16 rounded-lg" />
-                <div className="flex-1 space-y-2">
-                  <SkeletonBlock className="h-4 w-4/5 rounded-md" />
-                  <SkeletonBlock className="h-4 w-2/5 rounded-md" />
+          <div className="min-w-0 space-y-6">
+            <div className="space-y-4 rounded-lg bg-white p-4 shadow-md sm:p-6">
+              <SkeletonBlock className="h-7 w-36 rounded-md" />
+              {range(3).map((item) => (
+                <div key={item} className="flex items-center gap-3">
+                  <SkeletonBlock className="h-16 w-16 rounded-lg" />
+                  <div className="flex-1 space-y-2">
+                    <SkeletonBlock className="h-4 w-4/5 rounded-md" />
+                    <SkeletonBlock className="h-4 w-2/5 rounded-md" />
+                  </div>
                 </div>
-              </div>
-            ))}
-            <SkeletonBlock className="h-32 w-full rounded-xl" />
+              ))}
+            </div>
+            <div className="space-y-4 rounded-lg bg-white p-4 shadow-md sm:p-6">
+              <SkeletonBlock className="h-7 w-36 rounded-md" />
+              <SkeletonBlock className="h-32 w-full rounded-xl" />
+            </div>
           </div>
         </div>
       </div>

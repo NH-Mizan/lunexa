@@ -1,9 +1,11 @@
 "use client";
 import useShopStore from "@/context/cardStore";
 import { useEffect, useState } from "react";
-import { Bounce, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { CheckoutSkeleton } from "@/components/Skeletons";
+import Image from "next/image";
+import { getAssetUrl } from "@/lib/asset-url";
 
 export default function Checkout() {
   const cart = useShopStore((state) => state.cart);
@@ -13,7 +15,6 @@ export default function Checkout() {
   const [hydrated, setHydrated] = useState(false);
   const [shipping, setShipping] = useState(70);
   const [payment, setPayment] = useState("cod");
-  const baseURL = "https://sellpixer.websolutionit.com/";
   const [token, setToken] = useState(null);
   const [tokenReady, setTokenReady] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -112,17 +113,17 @@ export default function Checkout() {
       <div className="container space-y-8">
 
         {/* Top Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
 
           {/* ================= LEFT - DELIVERY DETAILS ================= */}
-          <div className="lg:col-span-2 bg-white rounded-lg shadow-md p-6 space-y-6">
+          <div className="min-w-0 bg-white rounded-lg shadow-md p-4 sm:p-6 space-y-6">
 
             <h2 className="text-2xl font-bold border-b pb-3">
               Delivery Details
             </h2>
 
             {/* Name + Phone */}
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid min-w-0 xl:grid-cols-2 gap-6">
 
               {/* Name */}
               <div className="flex flex-col">
@@ -160,7 +161,7 @@ export default function Checkout() {
 
 
             {/* Address + Note */}
-            <div className="grid md:grid-cols-2 gap-6 mt-4">
+            <div className="grid min-w-0 xl:grid-cols-2 gap-6 mt-4">
 
               {/* Address */}
               <div className="flex flex-col">
@@ -199,7 +200,7 @@ export default function Checkout() {
 
 
             {/* Shipping + Payment */}
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid min-w-0 xl:grid-cols-2 gap-6">
 
               {/* Shipping */}
               <div className="">
@@ -320,244 +321,109 @@ export default function Checkout() {
 
           </div>
 
-          {/* ================= RIGHT - CART SUMMARY ================= */}
-          <div className="bg-white rounded-lg shadow-md p-6 space-y-4 h-fit">
-
-            <h2 className="text-2xl font-bold border-b pb-3 text-center">
-              Cart Summary
-            </h2>
-
-            <div className="space-y-3 text-sm">
-
-              <div className="flex justify-between">
-                <span>Quantity</span>
-                <span>
-                  {cart.reduce((sum, item) => sum + item.quantity, 0)}
-                </span>
+          <aside className="min-w-0 space-y-6">
+            <section className="min-w-0 rounded-lg bg-white p-4 shadow-md sm:p-6" aria-labelledby="checkout-products-heading">
+              <h2 id="checkout-products-heading" className="border-b pb-3 text-xl font-bold sm:text-2xl">
+                Your Products
+              </h2>
+              <div className="divide-y divide-gray-200">
+                {cart.map((item) => (
+                  <article key={`${item.id}-${item.size}-${item.color}`} className="py-4 last:pb-0">
+                    <div className="flex items-start gap-3">
+                      <Image
+                        src={getAssetUrl(typeof item.image === "string" ? item.image : item.image?.image)}
+                        alt={item.name || "Product"}
+                        width={64}
+                        height={64}
+                        className="h-16 w-16 shrink-0 rounded-lg border object-cover"
+                      />
+                      <div className="min-w-0 flex-1">
+                        <h3 className="break-words text-sm font-semibold text-gray-900">{item.name}</h3>
+                        <div className="mt-1 flex flex-wrap gap-2 text-xs">
+                          {item.color && <span className="rounded-full bg-pink-100 px-2 py-1 text-pink-700">{item.color}</span>}
+                          {item.size && <span className="rounded-full bg-blue-100 px-2 py-1 text-blue-700">{item.size}</span>}
+                        </div>
+                        <p className="mt-1 text-sm text-gray-500">Price: ৳{Number(item.new_price) || 0}</p>
+                      </div>
+                      <button type="button" onClick={() => removeFromCart(item)} aria-label={`Remove ${item.name} from cart`} className="shrink-0 text-sm text-red-500 hover:text-red-700">
+                        Remove
+                      </button>
+                    </div>
+                    <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <button type="button" onClick={() => decreaseQty(item)} disabled={item.quantity <= 1} aria-label={`Decrease quantity of ${item.name}`} className="h-8 w-8 rounded-md border hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40">−</button>
+                        <span className="min-w-4 text-center text-sm">{item.quantity}</span>
+                        <button type="button" onClick={() => increaseQty(item)} aria-label={`Increase quantity of ${item.name}`} className="h-8 w-8 rounded-md border hover:bg-gray-100">+</button>
+                      </div>
+                      <p className="text-sm font-semibold">Subtotal: ৳{(Number(item.new_price) || 0) * item.quantity}</p>
+                    </div>
+                  </article>
+                ))}
+                {cart.length === 0 && <p className="py-6 text-center text-sm text-gray-500">No products in cart</p>}
               </div>
+            </section>
 
-              <div className="flex justify-between">
-                <span>Product Price</span>
-                <span>৳{subtotal}</span>
-              </div>
+            {/* ================= RIGHT - CART SUMMARY ================= */}
+            <div className="min-w-0 bg-white rounded-lg shadow-md p-4 sm:p-6 space-y-4 h-fit">
 
-              <div className="flex justify-between">
-                <span>Discount</span>
-                <span>৳{discount}</span>
-              </div>
+              <h2 className="text-2xl font-bold border-b pb-3 text-center">
+                Cart Summary
+              </h2>
 
-              <div className="flex justify-between">
-                <span>Delivery Charge</span>
-                <span>৳{shipping}</span>
-              </div>
+              <div className="space-y-3 text-sm">
 
-              <div className="border-t pt-3 flex justify-between font-bold text-base">
-                <span>Total</span>
-                <span>৳{total}</span>
-              </div>
-
-            </div>
-
-            {/* Coupon */}
-            <div className="pt-4">
-              <p className="text-sm mb-2">Do you have a coupon code?</p>
-              <div className="flex">
-                <input
-                  type="text"
-                  className="flex-1 coupon_input"
-                  placeholder="Enter coupon"
-                />
-                <button className="coupon_btn">
-                  Apply
-                </button>
-              </div>
-            </div>
-
-
-
-          </div>
-
-        </div>
-
-      </div>
-      <div className="bg-white container rounded-lg shadow-md p-4 md:p-6 mt-4">
-
-        {/* ================= Desktop Header ================= */}
-        <div className="hidden md:grid grid-cols-5 font-semibold text-gray-700 border-b pb-3 mb-4 text-base">
-          <span className="col-span-2">Product</span>
-          <span className="text-center">Price</span>
-          <span className="text-center">Quantity</span>
-          <span className="text-right">Subtotal</span>
-        </div>
-
-        {/* ================= Products ================= */}
-        {cart.map((item) => (
-          <div
-            key={`${item.id}-${item.size}-${item.color}`}
-            className="border-b py-4"
-          >
-
-            {/* ===== Desktop Layout ===== */}
-            <div className="hidden md:grid grid-cols-[2fr_1fr_1fr_1fr_auto] items-center gap-4">
-
-              {/* Product */}
-              <div className="flex items-center gap-4">
-                <img
-                  src={
-                    item.image?.image
-                      ? `${baseURL}${item.image.image}`
-                      : "/no-image.png"
-                  }
-                  alt={item.name}
-                  className="w-16 h-16 object-cover rounded-lg border"
-                />
-                <h4 className="font-medium truncate max-w-[250px]">
-                  {item.name}
-                </h4>
-
-                <div className="flex gap-2 mt-1">
-                  {item.color && (
-                    <span className="px-3 py-[2px] text-xs rounded-full bg-pink-100 text-pink-600 font-medium">
-                      {item.color}
-                    </span>
-                  )}
-
-                  {item.size && (
-                    <span className="px-3 py-[2px] text-xs rounded-full bg-blue-100 text-blue-600 font-medium">
-                      {item.size}
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              {/* Price */}
-              <div className="text-center font-medium">
-                ৳{Number(item.new_price) || 0}
-              </div>
-
-              {/* Quantity */}
-              <div className="flex justify-center items-center gap-2">
-                <button
-                  onClick={() => decreaseQty(item)}
-                  className="w-8 h-8 border rounded-md hover:bg-gray-100"
-                >
-                  -
-                </button>
-                <span>{item.quantity}</span>
-                <button
-                  onClick={() => increaseQty(item)}
-                  className="w-8 h-8 border rounded-md hover:bg-gray-100"
-                >
-                  +
-                </button>
-              </div>
-
-              {/* Subtotal */}
-              <div className="text-right font-semibold">
-                ৳{(Number(item.new_price) || 0) * item.quantity}
-              </div>
-
-              {/* Remove */}
-              <div className="text-right">
-                <button
-                  onClick={() => removeFromCart(item)}
-                  className="text-red-500 hover:text-red-700 text-lg"
-                >
-                  🗑
-                </button>
-              </div>
-
-            </div>
-
-
-            {/* ===== Mobile Layout ===== */}
-            <div className="md:hidden flex flex-col gap-3">
-
-              <div className="flex gap-3">
-                <img
-                  src={
-                    item.image?.image
-                      ? `${baseURL}${item.image.image}`
-                      : "/no-image.png"
-                  }
-                  alt={item.name}
-                  className="w-16 h-16 object-cover rounded-lg border"
-                />
-                <div className="flex-1">
-                  <h4 className="font-medium text-sm">
-                    {item.name}
-                  </h4>
-                  <div className="flex gap-2 mt-1">
-                    {item.color && (
-                      <span className="px-3 py-[2px] text-xs rounded-full bg-pink-100 text-pink-600 font-medium">
-                        {item.color}
-                      </span>
-                    )}
-
-                    {item.size && (
-                      <span className="px-3 py-[2px] text-xs rounded-full bg-blue-100 text-blue-600 font-medium">
-                        {item.size}
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-sm text-gray-500">
-                    Price: ৳{Number(item.new_price) || 0}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex justify-between items-center">
-
-                {/* Quantity */}
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => decreaseQty(item)}
-                    className="w-8 h-8 border rounded-md"
-                  >
-                    -
-                  </button>
-                  <span>{item.quantity}</span>
-                  <button
-                    onClick={() => increaseQty(item)}
-                    className="w-8 h-8 border rounded-md"
-                  >
-                    +
-                  </button>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <span className="font-semibold">
-                    ৳{(Number(item.new_price) || 0) * item.quantity}
+                <div className="flex justify-between">
+                  <span>Quantity</span>
+                  <span>
+                    {cart.reduce((sum, item) => sum + item.quantity, 0)}
                   </span>
+                </div>
 
-                 <button
-                  onClick={() => removeFromCart(item)}
-                  className="text-red-500 hover:text-red-700 text-lg"
-                >
-                  🗑
-                </button>
+                <div className="flex justify-between">
+                  <span>Product Price</span>
+                  <span>৳{subtotal}</span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span>Discount</span>
+                  <span>৳{discount}</span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span>Delivery Charge</span>
+                  <span>৳{shipping}</span>
+                </div>
+
+                <div className="border-t pt-3 flex justify-between font-bold text-base">
+                  <span>Total</span>
+                  <span>৳{total}</span>
                 </div>
 
               </div>
 
+              {/* Coupon */}
+              <div className="pt-4">
+                <p className="text-sm mb-2">Do you have a coupon code?</p>
+                <div className="flex">
+                  <input
+                    type="text"
+                    className="min-w-0 flex-1 coupon_input"
+                    placeholder="Enter coupon"
+                  />
+                  <button className="coupon_btn">
+                    Apply
+                  </button>
+                </div>
+              </div>
+
+
 
             </div>
 
-          </div>
-        ))}
-
-        {/* Empty */}
-        {cart.length === 0 && (
-          <p className="text-center text-gray-500 py-6">
-            No products in cart
-          </p>
-        )}
+          </aside>
+        </div>
 
       </div>
-
-
-
     </div>
-
   );
 }
