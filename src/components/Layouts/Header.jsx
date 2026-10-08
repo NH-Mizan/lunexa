@@ -518,7 +518,7 @@ export default function MainHeader({ initialCategories = [], brands = [] }) {
         </div>
       </div>
 
-      <nav className="fixed inset-x-0 bottom-0 z-50 h-[68px] overflow-visible bg-[#145f86] text-white shadow-[0_-8px_24px_rgba(0,0,0,0.22)] lg:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-50 h-[68px] overflow-visible bg-pry text-white shadow-[0_-8px_24px_rgba(244,83,136,0.18)] lg:hidden" aria-label="Mobile navigation">
         <div className="grid h-full grid-cols-5 items-end px-1 pb-2 text-[11px] font-semibold leading-none">
           <button
             type="button"
@@ -536,7 +536,7 @@ export default function MainHeader({ initialCategories = [], brands = [] }) {
           </Link>
 
           <Link href="/" className="relative flex h-full min-w-0 items-start justify-center" aria-label="Home">
-            <span className="absolute -top-8 grid h-[88px] w-[88px] place-items-center rounded-full border-[5px] border-white bg-[#145f86] shadow-lg">
+            <span className="absolute -top-8 grid h-[88px] w-[88px] place-items-center rounded-full border-[5px] border-white bg-pry shadow-[0_4px_14px_rgba(244,83,136,0.25)]">
               <FaHome className="text-[34px] text-white" />
             </span>
           </Link>
