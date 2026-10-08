@@ -1,26 +1,23 @@
-﻿import { SkeletonBlock } from "@/components/Skeletons";
+import { SkeletonBlock } from "@/components/Skeletons";
 
 export default function Loading() {
   return (
-    <div role="status" aria-label="Loading order details" className="bg-[#faf8f9] px-4 py-8 sm:py-12 lg:py-16">
+    <div role="status" aria-label="Loading order details" className="bg-[#f6fafb] px-4 py-10">
       <span className="sr-only">Loading order details…</span>
-      <div aria-hidden="true" className="mx-auto max-w-6xl">
-        <SkeletonBlock className="mx-auto mb-8 h-4 w-64 max-w-full rounded" />
-        <div className="flex flex-col items-center gap-5 rounded-3xl border border-pink-100 bg-white px-5 py-12">
+      <div aria-hidden="true" className="mx-auto max-w-[1040px]">
+        <div className="mb-6 flex flex-col items-center gap-4">
           <SkeletonBlock className="size-20 rounded-full" />
-          <SkeletonBlock className="h-4 w-48 max-w-full rounded" />
-          <SkeletonBlock className="h-11 w-full max-w-lg rounded-lg" />
-          <SkeletonBlock className="h-5 w-full max-w-sm rounded" />
-          <SkeletonBlock className="mt-2 h-24 w-full max-w-2xl rounded-2xl" />
+          <SkeletonBlock className="h-9 w-64 max-w-full rounded-lg" />
+          <SkeletonBlock className="h-10 w-full max-w-md rounded" />
         </div>
-        <div className="mt-6 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <div className="space-y-6 rounded-2xl border border-slate-200 bg-white p-6">
-            <SkeletonBlock className="h-6 w-44 rounded" />
-            {[0, 1, 2].map((item) => <div key={item} className="flex gap-4 border-t border-slate-100 pt-6"><SkeletonBlock className="size-14 shrink-0 rounded-xl" /><div className="flex-1 space-y-3"><SkeletonBlock className="h-5 w-3/4 rounded" /><SkeletonBlock className="h-4 w-1/2 rounded" /><SkeletonBlock className="h-4 w-full rounded" /></div></div>)}
-          </div>
-          <div className="space-y-5">
-            {[0, 1].map((item) => <div key={item} className="space-y-5 rounded-2xl border border-slate-200 bg-white p-6"><SkeletonBlock className="h-6 w-40 rounded" /><SkeletonBlock className="h-4 w-full rounded" /><SkeletonBlock className="h-4 w-3/4 rounded" /><SkeletonBlock className="h-10 w-full rounded" /></div>)}
-          </div>
+        <SkeletonBlock className="mb-6 h-24 w-full rounded-xl" />
+        <div className="space-y-6 rounded-xl border border-slate-100 bg-white p-5 sm:p-7">
+          <SkeletonBlock className="h-10 w-48 rounded" />
+          <SkeletonBlock className="h-10 w-full rounded" />
+          {[0, 1, 2].map((item) => <div key={item} className="flex gap-4 border-b border-slate-100 pb-5"><SkeletonBlock className="size-14 shrink-0 rounded-lg" /><div className="flex-1 space-y-3"><SkeletonBlock className="h-5 w-3/4 rounded" /><SkeletonBlock className="h-4 w-1/2 rounded" /></div></div>)}
+          <SkeletonBlock className="ml-auto h-32 w-full max-w-[410px] rounded-lg" />
+          <div className="grid gap-5 sm:grid-cols-2">{[0, 1].map((item) => <SkeletonBlock key={item} className="h-44 rounded-lg" />)}</div>
+          <div className="flex flex-wrap justify-center gap-4"><SkeletonBlock className="h-12 w-48 rounded-lg" /><SkeletonBlock className="h-12 w-48 rounded-lg" /></div>
         </div>
       </div>
     </div>
