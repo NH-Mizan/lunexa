@@ -313,12 +313,16 @@ export const DashboardOverviewSkeleton = memo(function DashboardOverviewSkeleton
 
 export const CheckoutSkeleton = memo(function CheckoutSkeleton() {
   return (
-    <div className="bg-gray-100 min-h-screen py-8">
-      <div className="container space-y-8">
+    <div className="min-h-screen bg-slate-50 py-6 sm:py-10">
+      <div className="container space-y-6 px-2 sm:px-4">
+        <div className="flex flex-wrap items-center justify-between gap-5">
+          <SkeletonBlock className="h-12 w-40 rounded-lg" />
+          <SkeletonBlock className="h-8 w-64 rounded-lg" />
+        </div>
         <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-          <div className="min-w-0 space-y-6 rounded-lg bg-white p-4 shadow-md sm:p-6">
+          <div className="min-w-0 space-y-6 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm sm:p-7">
             <SkeletonBlock className="h-8 w-48 rounded-md" />
-            <div className="grid gap-6 xl:grid-cols-2">
+            <div className="grid gap-5 sm:grid-cols-2">
               {range(4).map((item) => (
                 <div key={item} className="space-y-2">
                   <SkeletonBlock className="h-4 w-28 rounded-md" />
@@ -326,19 +330,22 @@ export const CheckoutSkeleton = memo(function CheckoutSkeleton() {
                 </div>
               ))}
             </div>
-            <div className="grid gap-6 xl:grid-cols-2">
+            <div className="space-y-6">
               {range(2).map((item) => (
                 <div key={item} className="space-y-3">
                   <SkeletonBlock className="h-6 w-36 rounded-md" />
-                  <SkeletonBlock className="h-20 w-full rounded-xl" />
-                  <SkeletonBlock className="h-20 w-full rounded-xl" />
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <SkeletonBlock className="h-20 w-full rounded-xl" />
+                    <SkeletonBlock className="h-20 w-full rounded-xl" />
+                  </div>
                 </div>
               ))}
             </div>
+            <SkeletonBlock className="h-14 w-full rounded-xl" />
           </div>
 
           <div className="min-w-0 space-y-6">
-            <div className="space-y-4 rounded-lg bg-white p-4 shadow-md sm:p-6">
+            <div className="space-y-4 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm sm:p-6">
               <SkeletonBlock className="h-7 w-36 rounded-md" />
               {range(3).map((item) => (
                 <div key={item} className="flex items-center gap-3">
@@ -350,7 +357,7 @@ export const CheckoutSkeleton = memo(function CheckoutSkeleton() {
                 </div>
               ))}
             </div>
-            <div className="space-y-4 rounded-lg bg-white p-4 shadow-md sm:p-6">
+            <div className="space-y-4 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm sm:p-6">
               <SkeletonBlock className="h-7 w-36 rounded-md" />
               <SkeletonBlock className="h-32 w-full rounded-xl" />
             </div>
