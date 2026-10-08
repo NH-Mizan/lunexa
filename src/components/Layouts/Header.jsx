@@ -6,15 +6,12 @@ import { getProductPath, getProductSlug } from "@/lib/product-routing";
 import { getChildCategories, getSubcategories } from "@/lib/taxonomy";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { BiSupport } from "react-icons/bi";
 import {
   FaAngleDown,
   FaBars,
-  FaBolt,
-  FaGift,
-  FaHome,
   FaRegUserCircle,
   FaSearch,
   FaShoppingCart,
@@ -23,6 +20,8 @@ import {
 } from "react-icons/fa";
 import { GoHeart } from "react-icons/go";
 import { IoGitCompare } from "react-icons/io5";
+import { FiGrid, FiHeart, FiHome, FiShoppingBag, FiUser } from "react-icons/fi";
+import navStyles from "./MobileNav.module.css";
 import useShopStore from "@/context/cardStore";
 import OtpLoginModal from "../OtpLoginModal ";
 import MobileCategoryMenu from "./MobileCategoryMenu";
@@ -72,6 +71,7 @@ export default function MainHeader({ initialCategories = [], brands = [] }) {
   const wishlistCount = useShopStore((state) => state.wishlist.length);
   const user = useAuthSession();
   const router = useRouter();
+  const pathname = usePathname();
   const searchBoxRef = useRef(null);
 
   useEffect(() => {
@@ -518,48 +518,48 @@ export default function MainHeader({ initialCategories = [], brands = [] }) {
         </div>
       </div>
 
-      <nav className="fixed inset-x-0 bottom-0 z-50 h-[68px] overflow-visible bg-pry text-white shadow-[0_-8px_24px_rgba(244,83,136,0.18)] lg:hidden" aria-label="Mobile navigation">
-        <div className="grid h-full grid-cols-5 items-end px-1 pb-2 text-[11px] font-semibold leading-none">
+      <nav className={navStyles.nav} aria-label="Mobile navigation">
+        <div className={navStyles.items}>
           <button
             type="button"
             onClick={toggleMenu}
-            className="flex h-full min-w-0 flex-col items-center justify-end gap-2 px-1 text-white"
+            className={`${navStyles.item} ${isOpen ? navStyles.active : ""}`}
             aria-label="Open categories"
+            aria-expanded={isOpen}
           >
-            <FaBars className="text-[24px]" />
-            <span className="max-w-full truncate">Category</span>
+            <span className={navStyles.icon}><FiGrid aria-hidden="true" /></span>
+            <span>Category</span>
           </button>
 
-          <Link href="#" className="flex h-full min-w-0 flex-col items-center justify-end gap-2 px-1 text-white">
-            <FaGift className="text-[24px]" />
-            <span className="max-w-full truncate">Offers</span>
+          <Link href="/wishlist" className={`${navStyles.item} ${pathname === "/wishlist" ? navStyles.active : ""}`} aria-current={pathname === "/wishlist" ? "page" : undefined}>
+            <span className={navStyles.icon}><FiHeart aria-hidden="true" />{safeWishlistCount > 0 && <span className={navStyles.badge}>{safeWishlistCount > 99 ? "99+" : safeWishlistCount}</span>}</span>
+            <span>Wishlist</span>
           </Link>
 
-          <Link href="/" className="relative flex h-full min-w-0 items-start justify-center" aria-label="Home">
-            <span className="absolute -top-8 grid h-[88px] w-[88px] place-items-center rounded-full border-[5px] border-white bg-pry shadow-[0_4px_14px_rgba(244,83,136,0.25)]">
-              <FaHome className="text-[34px] text-white" />
-            </span>
+          <Link href="/" className={`${navStyles.item} ${navStyles.home} ${pathname === "/" ? navStyles.active : ""}`} aria-current={pathname === "/" ? "page" : undefined}>
+            <span className={navStyles.homeIcon}><FiHome aria-hidden="true" /></span>
+            <span>Home</span>
           </Link>
 
-          <Link href="#" className="flex h-full min-w-0 flex-col items-center justify-end gap-2 px-1 text-white">
-            <FaBolt className="text-[24px]" />
-            <span className="max-w-full truncate">Flash Sale</span>
+          <Link href="/checkout" className={`${navStyles.item} ${pathname === "/checkout" ? navStyles.active : ""}`} aria-current={pathname === "/checkout" ? "page" : undefined}>
+            <span className={navStyles.icon}><FiShoppingBag aria-hidden="true" />{safeCartCount > 0 && <span className={navStyles.badge}>{safeCartCount > 99 ? "99+" : safeCartCount}</span>}</span>
+            <span>Cart</span>
           </Link>
 
           {user ? (
-            <Link href="/dashboard" className="flex h-full min-w-0 flex-col items-center justify-end gap-2 px-1 text-white">
-              <FaUser className="text-[24px]" />
-              <span className="max-w-full truncate">Account</span>
+            <Link href="/dashboard" className={`${navStyles.item} ${pathname.startsWith("/dashboard") ? navStyles.active : ""}`} aria-current={pathname.startsWith("/dashboard") ? "page" : undefined}>
+              <span className={navStyles.icon}><FiUser aria-hidden="true" /></span>
+              <span>Account</span>
             </Link>
           ) : (
             <button
               type="button"
               onClick={openLoginModal}
-              className="flex h-full min-w-0 flex-col items-center justify-end gap-2 px-1 text-white"
+              className={`${navStyles.item} ${loginModal ? navStyles.active : ""}`}
               aria-label="Login account"
             >
-              <FaUser className="text-[24px]" />
-              <span className="max-w-full truncate">Account</span>
+              <span className={navStyles.icon}><FiUser aria-hidden="true" /></span>
+              <span>Account</span>
             </button>
           )}
         </div>

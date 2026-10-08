@@ -1,0 +1,55 @@
+.nav {
+  position: fixed;
+  inset-inline: 12px;
+  bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  z-index: 50;
+  max-width: 520px;
+  height: 68px;
+  margin-inline: auto;
+  border: 1px solid #f7dfe8;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 8px 30px #9d335922, 0 2px 6px #9d33590a;
+}
+.items { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); height: 100%; padding: 0 5px; }
+.item {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-radius: 16px;
+  color: #89909e;
+  font-size: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color .18s, background .18s;
+  -webkit-tap-highlight-color: transparent;
+}
+.icon { position: relative; display: grid; place-items: center; width: 40px; height: 30px; border-radius: 11px; transition: background .18s; }
+.icon > svg { width: 22px; height: 22px; stroke-width: 1.8; }
+.active, .item:hover { color: var(--primary-color); }
+.active .icon { background: #fff0f5; }
+.item:focus-visible { outline: 2px solid var(--primary-color); outline-offset: 2px; }
+.home { justify-content: flex-end; padding-bottom: 11px; }
+.homeIcon {
+  position: absolute;
+  top: -15px;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border: 5px solid #fff;
+  border-radius: 19px;
+  background: var(--primary-color);
+  box-shadow: 0 5px 12px #f4538838;
+  color: #fff;
+  transition: transform .18s;
+}
+.homeIcon svg { width: 24px; height: 24px; stroke-width: 2; }
+.home:hover .homeIcon { transform: translateY(-2px); }
+.badge { position: absolute; top: 0; right: 0; display: grid; place-items: center; min-width: 15px; height: 15px; padding: 0 3px; border: 1.5px solid #fff; border-radius: 10px; background: var(--primary-color); color: #fff; font-size: 8px; line-height: 1; }
+@media (min-width: 1024px) { .nav { display: none; } }
+@media (prefers-reduced-motion: reduce) { .item, .icon, .homeIcon { transition: none; } }

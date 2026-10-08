@@ -81,7 +81,7 @@ export default async function RootLayout({ children }) {
         <AuthSessionProvider user={user}>
           <MainHeader initialCategories={categories} brands={brands} />
           <Suspense fallback={<HomePageSkeleton />}>
-            <main className="pb-20 lg:pb-0">{children}</main>
+            <main className="pb-[calc(88px+env(safe-area-inset-bottom))] lg:pb-0">{children}</main>
           </Suspense>
           <ToastProvider />
           <Footer />
